@@ -1,6 +1,12 @@
 # jly-slp-2 (nuxt)
 
-A starting point for Vue/Nuxt with a custom api server (Express).
+SLP written with Vue / Nuxt.
+
+## Todo
+
+- Player components
+- Navbar
+- Auth
 
 ## Setup
 
@@ -103,4 +109,42 @@ Express api is registered in `nuxt.config.js`
     { "path": "/api", "handler": "~/api/index.js" }
   ]
 }
+```
+
+## Vuetify
+
+### Components
+
+https://vuetifyjs.com/en/components/buttons/
+
+```vue
+<template>
+  <div>...</div>
+</template>
+
+<script>
+import { VBtn } from 'vuetify/lib';
+export default {
+  components: { VBtn },
+};
+</script>
+```
+
+### Icons
+
+https://vuetifyjs.com/en/components/icons/
+
+```vue
+<template>
+  <div>
+    <VIcon>mdi-account-circle-outline</VIcon>
+  </div>
+</template>
+
+<script>
+import { VIcon } from 'vuetify/lib';
+export default {
+  components: { VIcon },
+};
+</script>
 ```

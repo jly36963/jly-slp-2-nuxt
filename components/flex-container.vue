@@ -16,9 +16,16 @@ export default {
 
 <style scoped>
 .flex-container {
-  @apply flex content-center justify-center m-auto p-4 h-screen w-full;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  padding: 2rem;
+  height: 100vh;
+  width: 100%;
 }
 .flex-container-main {
-  @apply p-2 text-center m-auto;
+  padding: 2rem;
+  margin: auto;
+  text-align: center;
 }
 </style>

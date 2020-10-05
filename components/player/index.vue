@@ -1,0 +1,66 @@
+<template>
+  <div>
+    <template v-if="isMobile">
+      <MobilePlayerWithLyrics v-bind="$props" v-if="showLyrics" />
+      <MobilePlayerNoLyrics v-bind="$props" v-else />
+    </template>
+    <template v-else>
+      <PlayerWithLyrics v-bind="$props" v-if="showLyrics" />
+      <PlayerNoLyrics v-bind="$props" v-else />
+    </template>
+  </div>
+</template>
+
+<script lang="ts">
+import PaddedPaper from '../padded-paper.vue';
+import FlexContainer from '../flex-container.vue';
+// player
+import PlayerWithLyrics from './player-with-lyrics.vue';
+import PlayerNoLyrics from './player-no-lyrics.vue';
+import MobilePlayerWithLyrics from './mobile-player-with-lyrics.vue';
+import MobilePlayerNoLyrics from './mobile-player-no-lyrics.vue';
+// util
+import debounce from 'debounce';
+// component
+export default {
+  name: 'NothingPlaying',
+  components: {
+    PaddedPaper,
+    FlexContainer,
+    MobilePlayerWithLyrics,
+    MobilePlayerNoLyrics,
+    PlayerWithLyrics,
+    PlayerNoLyrics,
+  },
+  data() {
+    return {
+      isMobile: false,
+    };
+  },
+  props: {
+    songItem: Object,
+    songItemId: String,
+    is_playing: Boolean,
+    lyrics: String,
+    progress_percent: Number,
+    sendSpotifyPlaybackRequest: Function,
+    shuffle_state: Boolean,
+    repeat_state: String,
+    showLyrics: Boolean,
+    setShowLyrics: Function,
+    albumImageSrc: String,
+  },
+  mounted() {
+    window.onresize = debounce(this.onResize, 50);
+  },
+  beforeDestroy() {
+    window.onresize = null;
+  },
+  methods: {
+    onResize() {
+      const isMobile: boolean = window.innerWidth < 640;
+      this.isMobile = isMobile;
+    },
+  },
+};
+</script>
