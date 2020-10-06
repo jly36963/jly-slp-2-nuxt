@@ -4,7 +4,6 @@ SLP written with Vue / Nuxt.
 
 ## Todo
 
-- Player components
 - Navbar
 - Auth
 

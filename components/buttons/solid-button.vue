@@ -1,5 +1,13 @@
 <template>
-  <VBtn :color="color" :elevation="20" ripple dark rounded outlined>
+  <VBtn
+    :color="color"
+    :elevation="20"
+    :small="small"
+    ripple
+    dark
+    rounded
+    outlined
+  >
     {{ text }}
   </VBtn>
 </template>
@@ -13,6 +21,7 @@ export default {
   props: {
     text: String,
     color: { type: String, default: '#7B1FA2' },
+    small: { type: Boolean, default: false },
   },
 };
 </script>

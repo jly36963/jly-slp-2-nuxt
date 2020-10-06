@@ -51,7 +51,8 @@ export default {
     albumImageSrc: String,
   },
   mounted() {
-    window.onresize = debounce(this.onResize, 50);
+    this.onResize(); // get initial width
+    window.onresize = debounce(this.onResize, 50); // listen for changes in width
   },
   beforeDestroy() {
     window.onresize = null;

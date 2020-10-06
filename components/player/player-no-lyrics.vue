@@ -75,7 +75,8 @@
             <!-- show lyrics -->
             <OutlinedButton
               class="toggle-lyrics"
-              @click="() => setShowLyrics(!showLyrics)"
+              :small="true"
+              @click.native="() => setShowLyrics(!showLyrics)"
               :text="showLyrics ? 'Hide Lyrics' : 'Show Lyrics'"
             />
           </div>
@@ -130,8 +131,8 @@ export default {
 }
 .player {
   @apply p-4;
-  height: 500;
-  width: 320;
+  height: 500px;
+  width: 320px;
 }
 .player-text-container {
   @apply text-center my-2; /* text-align: center; */

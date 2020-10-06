@@ -135,6 +135,7 @@ export default {
   methods: {
     // set show lyrics
     setShowLyrics: function (showLyrics: boolean): void {
+      console.log('toggle lyrics');
       this.showLyrics = showLyrics;
     },
     // get hash

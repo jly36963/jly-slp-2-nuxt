@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <VSheet
-      class="sheet"
-      :color="color"
-      :elevation="elevation"
-      :dark="dark"
-      :height="height"
-      :width="width"
-      rounded
-    >
-      <slot />
-    </VSheet>
-  </div>
+  <VSheet
+    class="sheet"
+    :color="color"
+    :elevation="elevation"
+    :dark="dark"
+    :height="height"
+    :width="width"
+    rounded
+  >
+    <slot />
+  </VSheet>
 </template>
 
 <script lang="ts">

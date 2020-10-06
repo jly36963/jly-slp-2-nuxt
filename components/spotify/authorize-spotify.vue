@@ -8,7 +8,7 @@
           </Typography>
           <div>
             <a :href="spotifyAuthUrl">
-              <OutlinedButton text="Login" />
+              <OutlinedButton :small="true" text="Login" />
             </a>
           </div>
         </div>

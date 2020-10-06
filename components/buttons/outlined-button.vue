@@ -1,5 +1,12 @@
 <template>
-  <VBtn :dark="dark" :ripple="true" :elevation="20" rounded outlined>
+  <VBtn
+    :dark="dark"
+    :ripple="true"
+    :elevation="20"
+    :small="small"
+    rounded
+    outlined
+  >
     {{ text }}
   </VBtn>
 </template>
@@ -12,6 +19,7 @@ export default {
   name: 'OutlinedButton',
   props: {
     text: String,
+    small: { type: Boolean, default: false },
   },
   computed: {
     dark: function () {
