@@ -4,8 +4,8 @@ SLP written with Vue / Nuxt.
 
 ## Todo
 
-- Navbar
 - Auth
+- Types
 
 ## Setup
 
@@ -147,3 +147,9 @@ export default {
 };
 </script>
 ```
+
+## Event Handling (listeners/emitters) (child calling parent method)
+
+https://vuejs.org/v2/api/#vm-on
+https://michaelnthiessen.com/pass-function-as-prop/
+https://stackoverflow.com/a/53739018/8508220

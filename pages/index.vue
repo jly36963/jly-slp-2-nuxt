@@ -3,7 +3,7 @@
     <!-- no token -->
     <AuthorizeSpotify v-if="!spotifyToken" />
     <!-- nothing playing -->
-    <NothingPlaying v-if="!spotifyToken && !songItem" />
+    <NothingPlaying v-if="spotifyToken && !songItem" />
     <!-- player -->
     <Player
       v-if="spotifyToken && songItem"
@@ -12,12 +12,12 @@
       :is_playing="is_playing"
       :lyrics="lyrics"
       :progress_percent="progress_percent"
-      :sendSpotifyPlaybackRequest="sendSpotifyPlaybackRequest"
       :shuffle_state="shuffle_state"
       :repeat_state="repeat_state"
       :showLyrics="showLyrics"
-      :setShowLyrics="setShowLyrics"
       :albumImageSrc="albumImageSrc"
+      @toggleShowLyrics="toggleShowLyrics"
+      @sendSpotifyPlaybackRequest="sendSpotifyPlaybackRequest"
     />
     <!-- feedback -->
     <CustomSnackbar
@@ -134,9 +134,8 @@ export default {
   // methods
   methods: {
     // set show lyrics
-    setShowLyrics: function (showLyrics: boolean): void {
-      console.log('toggle lyrics');
-      this.showLyrics = showLyrics;
+    toggleShowLyrics: function (): void {
+      this.showLyrics = !this.showLyrics;
     },
     // get hash
     getHash: function (): any {
@@ -461,11 +460,9 @@ export default {
   },
   watch: {
     songItemId: async function () {
-      console.log('get lyrics path');
       await this.getLyricsPath();
     },
     lyrics_path: async function () {
-      console.log('get lyrics');
       await this.getLyrics();
     },
   },

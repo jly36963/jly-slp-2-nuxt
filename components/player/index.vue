@@ -1,12 +1,16 @@
 <template>
   <div>
     <template v-if="isMobile">
-      <MobilePlayerWithLyrics v-bind="$props" v-if="showLyrics" />
-      <MobilePlayerNoLyrics v-bind="$props" v-else />
+      <MobilePlayerWithLyrics
+        v-bind="$props"
+        v-on="$listeners"
+        v-if="showLyrics"
+      />
+      <MobilePlayerNoLyrics v-bind="$props" v-on="$listeners" v-else />
     </template>
     <template v-else>
-      <PlayerWithLyrics v-bind="$props" v-if="showLyrics" />
-      <PlayerNoLyrics v-bind="$props" v-else />
+      <PlayerWithLyrics v-bind="$props" v-on="$listeners" v-if="showLyrics" />
+      <PlayerNoLyrics v-bind="$props" v-on="$listeners" v-else />
     </template>
   </div>
 </template>
@@ -47,7 +51,7 @@ export default {
     shuffle_state: Boolean,
     repeat_state: String,
     showLyrics: Boolean,
-    setShowLyrics: Function,
+    toggleShowLyrics: Function,
     albumImageSrc: String,
   },
   mounted() {

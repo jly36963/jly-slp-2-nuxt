@@ -6,16 +6,32 @@
         --text-color: {{ textColor }};
       }
     </style>
+    <MainNavbar
+      :useDark="useDark"
+      @toggleUseDark="toggleUseDark"
+      :currentUser="currentUser"
+      @setCurrentUser="setCurrentUser"
+      @setUserInfo="setUserInfo"
+      @logout="logout"
+    />
     <Nuxt />
   </div>
 </template>
 
 <script lang="ts">
+// imports
+import MainNavbar from '../components/main-navbar.vue';
 // component
 export default {
+  data() {
+    return {
+      currentUser: null,
+      userInfo: null,
+    };
+  },
   computed: {
     useDark: function () {
-      return !!this.$vuetify?.theme?.isDark;
+      return !!this.$vuetify?.theme?.dark;
     },
     bgColor: function () {
       return this.useDark ? '#000' : '#ddd';
@@ -25,10 +41,20 @@ export default {
     },
   },
   methods: {
-    toggleTheme: function () {
-      if (this.$vuetify?.theme?.isDark) {
-        this.$vuetify.theme.isDark = !this.$vuetify.theme.isDark;
-      }
+    // set state
+    setCurrentUser: function (user) {
+      this.currentUser = user;
+    },
+    setUserInfo: function (info) {
+      this.userInfo = info;
+    },
+    // click events
+    toggleUseDark: function () {
+      this.$vuetify.theme.dark = !this.$vuetify?.theme?.dark;
+    },
+    logout: function () {
+      this.setCurrentUser(null);
+      this.setUserInfo(null);
     },
   },
 };

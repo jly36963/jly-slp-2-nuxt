@@ -1,7 +1,7 @@
 <template>
   <div>
     <FlexContainer>
-      <PaddedPaper>
+      <PaddedPaper class="root">
         <div>
           <Typography class="mb-4">
             Please authenticate with Spotify and authorize this app.
@@ -66,3 +66,9 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.root {
+  width: 18.75rem;
+}
+</style>

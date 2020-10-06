@@ -3,7 +3,7 @@
     class="sheet"
     :color="color"
     :elevation="elevation"
-    :dark="dark"
+    :dark="useDark"
     :height="height"
     :width="width"
     rounded
@@ -26,16 +26,13 @@ export default {
   },
   computed: {
     useDark: function () {
-      return !!this.$vuetify?.theme?.isDark;
+      return !!this.$vuetify?.theme?.dark;
     },
     color: function () {
       const color: string = this.useDark
         ? colors.grey.darken4
         : colors.shades.white;
       return color;
-    },
-    dark: function () {
-      return !!this.$vuetify?.theme?.isDark;
     },
   },
   components: {

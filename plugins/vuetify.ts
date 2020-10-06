@@ -2,7 +2,6 @@
 import Vue from 'vue';
 // vuetify imports
 import Vuetify from 'vuetify';
-import colors from 'vuetify/lib/util/colors';
 
 // import 'vuetify/dist/vuetify.min.css';
 // import '@mdi/font/css/materialdesignicons.css';

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="spacer" />
     <PaddedPaper class="root">
       <div class="player">
         <!-- album image -->
@@ -31,33 +32,33 @@
         <div class="playback-buttons-container">
           <VIcon
             :color="shuffle_state ? indigo : 'inherit'"
-            @click="() => sendSpotifyPlaybackRequest('shuffle')"
+            @click="() => emitSendSpotifyPlaybackRequest('shuffle')"
           >
             mdi-shuffle
           </VIcon>
 
-          <VIcon @click="() => sendSpotifyPlaybackRequest('previous')">
+          <VIcon @click="() => emitSendSpotifyPlaybackRequest('previous')">
             mdi-skip-previous
           </VIcon>
 
           <VIcon
             v-if="is_playing"
-            @click="() => sendSpotifyPlaybackRequest('pause')"
+            @click="() => emitSendSpotifyPlaybackRequest('pause')"
           >
             mdi-pause
           </VIcon>
 
-          <VIcon v-else @click="() => sendSpotifyPlaybackRequest('play')">
+          <VIcon v-else @click="() => emitSendSpotifyPlaybackRequest('play')">
             mdi-play
           </VIcon>
 
-          <VIcon @click="() => sendSpotifyPlaybackRequest('next')">
+          <VIcon @click="() => emitSendSpotifyPlaybackRequest('next')">
             mdi-skip-next
           </VIcon>
 
           <VIcon
             v-if="['context', 'off'].includes(repeat_state)"
-            @click="() => sendSpotifyPlaybackRequest('repeat')"
+            @click="() => emitSendSpotifyPlaybackRequest('repeat')"
             :color="repeat_state === 'context' ? indigo : 'inherit'"
           >
             mdi-repeat
@@ -65,7 +66,7 @@
           <VIcon
             v-else
             :color="indigo"
-            @click="() => sendSpotifyPlaybackRequest('repeat')"
+            @click="() => emitSendSpotifyPlaybackRequest('repeat')"
           >
             mdi-repeat-once
           </VIcon>
@@ -75,7 +76,7 @@
           <OutlinedButton
             class="toggle-lyrics"
             :small="true"
-            @click.native="() => setShowLyrics(!showLyrics)"
+            @click.native="emitToggleShowLyrics"
             :text="showLyrics ? 'Hide Lyrics' : 'Show Lyrics'"
           />
         </div>
@@ -101,17 +102,23 @@ export default {
     is_playing: Boolean,
     lyrics: String,
     progress_percent: Number,
-    sendSpotifyPlaybackRequest: Function,
     shuffle_state: Boolean,
     repeat_state: String,
     showLyrics: Boolean,
-    setShowLyrics: Function,
     albumImageSrc: String,
   },
   data() {
     return {
       indigo: colors.indigo.base,
     };
+  },
+  methods: {
+    emitSendSpotifyPlaybackRequest: function (action) {
+      this.$emit('sendSpotifyPlaybackRequest', action);
+    },
+    emitToggleShowLyrics: function () {
+      this.$emit('toggleShowLyrics');
+    },
   },
   components: {
     PaddedPaper,
@@ -125,7 +132,8 @@ export default {
 
 <style scoped>
 .root {
-  @apply h-screen w-screen flex flex-col content-center items-center;
+  @apply w-screen flex flex-col content-center items-center;
+  height: calc(100vh - 3.75rem);
   min-height: 600px;
 }
 .player {
@@ -177,5 +185,8 @@ export default {
 }
 .toggle-lyrics {
   /* nothing yet */
+}
+.spacer {
+  height: 3.75rem;
 }
 </style>

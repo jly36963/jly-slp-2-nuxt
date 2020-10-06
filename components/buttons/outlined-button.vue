@@ -26,8 +26,5 @@ export default {
       return !!this.$vuetify?.theme?.isDark;
     },
   },
-  mounted() {
-    console.log(this.$props);
-  },
 };
 </script>
