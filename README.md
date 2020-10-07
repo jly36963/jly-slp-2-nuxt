@@ -4,6 +4,7 @@ SLP written with Vue / Nuxt.
 
 ## Todo
 
+- API keys (prod)
 - Auth
 - Types
 
@@ -153,3 +154,8 @@ export default {
 https://vuejs.org/v2/api/#vm-on
 https://michaelnthiessen.com/pass-function-as-prop/
 https://stackoverflow.com/a/53739018/8508220
+
+## Heroku
+
+- `HOST=0.0.0.0`
+- `NODE_ENV=production`
