@@ -145,9 +145,6 @@ export default {
       this.$emit('toggleShowLyrics');
     },
   },
-  mounted() {
-    console.log('hi');
-  },
   components: {
     PaddedPaper,
     FlexContainer,

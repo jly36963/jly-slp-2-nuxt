@@ -52,25 +52,6 @@ export default {
 </script>
 
 <style scoped>
-/* font weight */
-.bolder {
-  @apply font-black; /* 900 */
-}
-.bold {
-  @apply font-bold; /* 700 */
-}
-.medium {
-  @apply font-medium; /* 500 */
-}
-.regular {
-  @apply font-normal; /* 400 */
-}
-.light {
-  @apply font-light; /* 300 */
-}
-.thin {
-  @apply font-hairline; /* 100 */
-}
 /* size */
 .h1 {
   font-size: 6rem;
@@ -138,6 +119,26 @@ export default {
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1.5px;
+}
+
+/* font weight */
+.bolder {
+  @apply font-black; /* 900 */
+}
+.bold {
+  @apply font-bold; /* 700 */
+}
+.medium {
+  @apply font-medium; /* 500 */
+}
+.regular {
+  @apply font-normal; /* 400 */
+}
+.light {
+  @apply font-light; /* 300 */
+}
+.thin {
+  @apply font-hairline; /* 100 */
 }
 </style>
 

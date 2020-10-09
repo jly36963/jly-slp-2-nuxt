@@ -4,8 +4,10 @@ SLP written with Vue / Nuxt.
 
 ## Todo
 
-- API keys (prod)
+- Proper component imports
 - Auth
+- Replace Snackbar (Vuetify Snackbar has too many issues)
+- CSS vars (custom properties) not set in production
 - Types
 
 ## Setup
@@ -159,3 +161,21 @@ https://stackoverflow.com/a/53739018/8508220
 
 - `HOST=0.0.0.0`
 - `NODE_ENV=production`
+
+## CSS variables (custom properties) in build
+
+https://github.com/nuxt/nuxt.js/issues/6805
+https://github.com/nuxt/nuxt.js/issues/6534
+
+## Middleware
+
+https://nuxtjs.org/guides/directory-structure/middleware/
+https://nuxtjs.org/api/pages-middleware/
+https://nuxtjs.org/guides/internals-glossary/context
+
+## Vuex
+
+https://nuxtjs.org/guide/vuex-store/
+https://vuex.vuejs.org/guide/actions.html
+https://itnext.io/efficiently-understanding-and-using-nuxt-vuex-7905eb8858d6
+https://stackoverflow.com/a/53968115/8508220

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <PrivateRoute>
     <!-- no token -->
     <AuthorizeSpotify v-if="!spotifyToken" />
     <!-- nothing playing -->
@@ -25,7 +25,7 @@
       :type="feedback.type"
       :open="feedback.open"
     />
-  </div>
+  </PrivateRoute>
 </template>
 
 <script lang="ts">
@@ -108,6 +108,13 @@ export default {
   },
   // computed values
   computed: {
+    // auth
+    uid() {
+      return this.$store.state.auth.uid;
+    },
+    userToken() {
+      return this.$store.state.auth.userToken;
+    },
     // progress percent
     progress_percent: function (): number {
       let progress: number | undefined;
@@ -362,14 +369,14 @@ export default {
           // url
           const url: string = `/api/genius/lyrics-path?${query}`;
           // headers
-          // const token: string = await authState.currentUser.getIdToken();
-          // const { uid } = authState.currentUser;
-          // const headers = { token, uid };
+          const token: string = this.userToken;
+          const uid = this.uid;
+          const headers = { token, uid };
           // request
           const response = await axios({
             method: 'get',
             url,
-            // headers,
+            headers,
             timeout: 4000,
           });
           const { song } = response.data;
@@ -413,14 +420,14 @@ export default {
           // url
           const url: string = `/api/genius/lyrics?${query}`;
           // headers
-          // const token: string = await authState.currentUser.getIdToken();
-          // const { uid } = authState.currentUser;
-          // const headers = { token, uid };
+          const token: string = await this.userToken;
+          const uid = this.uid;
+          const headers = { token, uid };
           // request
           const response = await axios({
             method: 'get',
             url,
-            // headers,
+            headers,
             timeout: 4000,
           });
           const { lyrics } = response.data;

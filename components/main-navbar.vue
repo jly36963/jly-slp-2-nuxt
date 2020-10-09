@@ -33,7 +33,7 @@
     >
       <VList nav dense>
         <VListItemGroup>
-          <template v-for="item of renderedMenuItems">
+          <template v-for="item of menuItems">
             <VListItem @click="item.action" :key="item.text">
               <VListItemIcon>
                 <VIcon>{{ item.icon }}</VIcon>
@@ -68,33 +68,11 @@ export default {
   name: 'MainNavbar',
   props: {
     useDark: Boolean,
-    toggleUseDark: Function,
-    logOut: Function,
+    userLoggedIn: Boolean,
   },
   data() {
     return {
       drawerOpen: false,
-      menuItems: [
-        { text: 'Home', icon: 'mdi-home', action: 'home', condition: true },
-        {
-          text: 'Theme',
-          icon: 'mdi-brightness-4',
-          action: this.emitToggleUseDark,
-          condition: true,
-        },
-        {
-          text: 'Log Out',
-          icon: 'mdi-exit-to-app',
-          action: this.emitLogout,
-          condition: this.currentUser,
-        },
-        {
-          text: 'Log in',
-          icon: 'mdi-account',
-          action: this.login,
-          condition: !this.currentUser,
-        },
-      ],
     };
   },
   computed: {
@@ -107,11 +85,39 @@ export default {
     textColor: function () {
       return this.useDark ? '#fff' : '#000';
     },
-    renderedMenuItems: function () {
-      return this.menuItems.filter((item) => item.condition);
+    menuItems: function () {
+      return [
+        {
+          text: 'Home',
+          icon: 'mdi-home',
+          action: this.goToHome,
+          condition: true,
+        },
+        {
+          text: 'Theme',
+          icon: 'mdi-brightness-4',
+          action: this.emitToggleUseDark,
+          condition: true,
+        },
+        {
+          text: 'Log Out',
+          icon: 'mdi-exit-to-app',
+          action: this.emitLogout,
+          condition: this.userLoggedIn,
+        },
+        {
+          text: 'Log in',
+          icon: 'mdi-account',
+          action: this.goToLogin,
+          condition: !this.userLoggedIn,
+        },
+      ].filter((item) => item.condition);
     },
+    // renderedMenuItems: function () {
+    //   return this.menuItems.filter((item) => item.condition);
+    // },
     drawerHeight: function () {
-      const rem = this.renderedMenuItems.length * 3;
+      const rem = this.menuItems.length * 3;
       return `${rem}rem`;
     },
   },
@@ -120,10 +126,10 @@ export default {
     toggleDrawerOpen: function (): void {
       this.drawerOpen = !this.drawerOpen;
     },
-    home: function (): void {
+    goToHome: function (): void {
       this.$router.push('/');
     },
-    login: function (): void {
+    goToLogin: function (): void {
       this.$router.push('/auth/login');
     },
     emitLogout: function (): void {

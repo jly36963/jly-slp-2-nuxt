@@ -1,5 +1,11 @@
 <template>
-  <VSnackbar :timeout="5000" :value="open" color :bottom="true" :left="true">
+  <VSnackbar
+    :timeout="5000"
+    :value="open"
+    :color="color"
+    :bottom="true"
+    :left="true"
+  >
     {{ message }}
   </VSnackbar>
 </template>
@@ -24,13 +30,13 @@ export default {
       let color;
       switch (this.type) {
         case 'success':
-          color = colors.green;
+          color = colors.green.base;
           break;
         case 'warning':
-          color = colors.yellow;
+          color = colors.yellow.base;
           break;
         case 'error':
-          color = colors.red;
+          color = colors.red.base;
           break;
         case 'info':
           color = colors.grey.darken3;

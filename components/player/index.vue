@@ -36,11 +36,6 @@ export default {
     PlayerWithLyrics,
     PlayerNoLyrics,
   },
-  data() {
-    return {
-      isMobile: false,
-    };
-  },
   props: {
     songItem: Object,
     songItemId: String,
@@ -54,18 +49,23 @@ export default {
     toggleShowLyrics: Function,
     albumImageSrc: String,
   },
-  mounted() {
-    this.onResize(); // get initial width
-    window.onresize = debounce(this.onResize, 50); // listen for changes in width
-  },
-  beforeDestroy() {
-    window.onresize = null;
+  data() {
+    return {
+      isMobile: false,
+    };
   },
   methods: {
     onResize() {
       const isMobile: boolean = window.innerWidth < 640;
       this.isMobile = isMobile;
     },
+  },
+  mounted() {
+    this.onResize(); // get initial width
+    window.onresize = debounce(this.onResize, 50); // listen for changes in width
+  },
+  beforeDestroy() {
+    window.onresize = null;
   },
 };
 </script>

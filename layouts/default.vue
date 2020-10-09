@@ -1,19 +1,22 @@
 <template>
   <div>
-    <style>
+    <!-- css custom properties -->
+    <style lang="scss">
       :root {
         --bg-color: {{ bgColor }};
         --text-color: {{ textColor }};
       }
     </style>
+    <!-- loading screen -->
+    <LoadingScreen v-if="showLoadingScreen" />
+    <!-- navbar -->
     <MainNavbar
+      :userLoggedIn="userLoggedIn"
       :useDark="useDark"
       @toggleUseDark="toggleUseDark"
-      :currentUser="currentUser"
-      @setCurrentUser="setCurrentUser"
-      @setUserInfo="setUserInfo"
       @logout="logout"
     />
+    <!-- page -->
     <Nuxt />
   </div>
 </template>
@@ -21,15 +24,33 @@
 <script lang="ts">
 // imports
 import MainNavbar from '../components/main-navbar.vue';
+import LoadingScreen from '../components/loading-screen.vue';
+import { auth } from '../utils/firebase.utils';
+import storage from '../utils/storage';
+// stores
+import { mapActions } from 'vuex';
 // component
 export default {
+  // state
   data() {
     return {
-      currentUser: null,
-      userInfo: null,
+      showLoadingScreen: true,
     };
   },
+  // computed values
   computed: {
+    uid: function () {
+      return this.$store.state.auth.uid;
+    },
+    userToken: function () {
+      return this.$store.state.auth.userToken;
+    },
+    userInitialized: function () {
+      return this.$store.state.auth.userInitialized;
+    },
+    userLoggedIn: function () {
+      return !!this.uid;
+    },
     useDark: function () {
       return !!this.$vuetify?.theme?.dark;
     },
@@ -40,27 +61,111 @@ export default {
       return this.useDark ? '#fff' : '#000';
     },
   },
+  // methods
   methods: {
-    // set state
-    setCurrentUser: function (user) {
-      this.currentUser = user;
+    // ---
+    // initialize
+    // ---
+    initializeLoadingScreen: function () {
+      const loadingScreenTimeout = setTimeout(() => {
+        this.setShowLoadingScreen(false);
+      }, 1500);
+      return loadingScreenTimeout;
     },
-    setUserInfo: function (info) {
-      this.userInfo = info;
+    initializeUseDark: function () {
+      let useDarkLS: boolean | undefined = storage.getItem('useDark');
+      if (typeof useDarkLS !== 'boolean') {
+        useDarkLS = true;
+        storage.setItem('useDark', true);
+      }
+      this.$vuetify.theme.dark = useDarkLS;
     },
-    // click events
+    initializeAuth: function () {
+      const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+        if (currentUser) {
+          const { uid } = currentUser;
+          const token = await currentUser.getIdToken();
+          // set uid and token, trigger fetch for user data
+          this.$store.dispatch('auth/setUid', uid);
+          this.$store.dispatch('auth/setUserToken', token);
+          this.$store.dispatch('auth/setUserData', null);
+          this.$store.dispatch('auth/setUserInitialized', false);
+        } else {
+          // set uid/token/data to falsey, set initialized to true
+          this.clearAuthState();
+        }
+      });
+      return unsubscribe;
+    },
+
+    // ---
+    // state hooks
+    // ---
+
+    setShowLoadingScreen: function (show) {
+      this.showLoadingScreen = show;
+    },
+
+    clearAuthState: function () {
+      this.$store.dispatch('auth/setUid', null);
+      this.$store.dispatch('auth/setUserToken', null);
+      this.$store.dispatch('auth/setUserData', null);
+      this.$store.dispatch('auth/setUserInitialized', true);
+    },
+
+    // ---
+    // events
+    // ---
+
     toggleUseDark: function () {
-      this.$vuetify.theme.dark = !this.$vuetify?.theme?.dark;
+      const newUseDark = !this.$vuetify?.theme?.dark;
+      storage.setItem('useDark', newUseDark);
+      this.$vuetify.theme.dark = newUseDark;
     },
-    logout: function () {
-      this.setCurrentUser(null);
-      this.setUserInfo(null);
+    logout: async function () {
+      // sign out firebase user
+      await auth.signOut();
+
+      // this.clearAuthState();
     },
+  },
+  // watch
+  watch: {
+    uid: function () {
+      // exit if initialized
+      if (this.userInitialized) return;
+      // user data
+      let userData: any;
+      //
+      if (this.uid) {
+        // get user data
+        // *** db fetch logic here ***
+        userData = {}; // placeholder
+      } else {
+        userData = null;
+      }
+      // update store
+      this.$store.dispatch('auth/setUserData', userData);
+      this.$store.dispatch('auth/setUserInitialized', true);
+    },
+  },
+  // mounted
+  mounted() {
+    this.loadingScreenTimeout = this.initializeLoadingScreen();
+    // initialize theme
+    this.initializeUseDark();
+    // initialize auth
+    this.unsubscribe = this.initializeAuth();
+  },
+  // before destroy (cleanup)
+  beforeDestroy() {
+    clearTimeout(this.loadingScreenTimeout);
+    this.unsubscribe();
   },
 };
 </script>
 
-<style>
+<style lang="scss">
 /* css reset */
 *,
 *::before,

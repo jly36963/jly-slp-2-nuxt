@@ -4,8 +4,11 @@ import config from '../config/firebase-admin.config';
 
 // app
 const serviceAccount = <ServiceAccount>config;
-const app = admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 // auth
-export const auth = app.auth();
+export const auth = admin.auth();
