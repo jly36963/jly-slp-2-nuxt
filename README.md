@@ -4,10 +4,8 @@ SLP written with Vue / Nuxt.
 
 ## Todo
 
-- Proper component imports
-- Auth
-- Replace Snackbar (Vuetify Snackbar has too many issues)
 - CSS vars (custom properties) not set in production
+- Replace Snackbar (Vuetify Snackbar has too many issues)
 - Types
 
 ## Setup

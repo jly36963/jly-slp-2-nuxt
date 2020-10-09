@@ -1,12 +1,5 @@
 <template>
-  <div>
-    <!-- css custom properties -->
-    <style lang="scss">
-      :root {
-        --bg-color: {{ bgColor }};
-        --text-color: {{ textColor }};
-      }
-    </style>
+  <div :class="classes">
     <!-- loading screen -->
     <LoadingScreen v-if="showLoadingScreen" />
     <!-- navbar -->
@@ -54,11 +47,11 @@ export default {
     useDark: function () {
       return !!this.$vuetify?.theme?.dark;
     },
-    bgColor: function () {
-      return this.useDark ? '#000' : '#ddd';
-    },
-    textColor: function () {
-      return this.useDark ? '#fff' : '#000';
+    classes: function () {
+      const classes = [];
+      // theme
+      classes.push(this.useDark ? 'dark' : 'light');
+      return classes;
     },
   },
   // methods
@@ -188,7 +181,14 @@ html {
 
 body {
   font-size: 14px;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+}
+
+.dark {
+  background-color: #000;
+  color: #fff;
+}
+.light {
+  background-color: #ddd;
+  color: #000;
 }
 </style>

@@ -357,6 +357,10 @@ export default {
     getLyricsPath: async function () {
       if (this.songItem) {
         try {
+          // auth
+          const token: string = this.userToken;
+          const uid = this.uid;
+          if (!uid || !token) return;
           // query
           const songName: string = removeSpecialCharacters(this.songItem.name);
           const artistName: string = removeSpecialCharacters(
@@ -369,8 +373,6 @@ export default {
           // url
           const url: string = `/api/genius/lyrics-path?${query}`;
           // headers
-          const token: string = this.userToken;
-          const uid = this.uid;
           const headers = { token, uid };
           // request
           const response = await axios({
@@ -387,7 +389,7 @@ export default {
             songName,
             artistName,
           );
-          if (!validLyricPath) throw new Error();
+          if (!validLyricPath) throw new Error('Genius provided invalid path');
           this.lyrics_path = path;
         } catch (err) {
           console.log(err);
@@ -411,7 +413,6 @@ export default {
     // get lyrics
     getLyrics: async function (): Promise<void> {
       if (this.songItem && this.lyrics_path) {
-        const lyrics_path = this;
         try {
           // query
           const query = qs.stringify({
@@ -420,7 +421,7 @@ export default {
           // url
           const url: string = `/api/genius/lyrics?${query}`;
           // headers
-          const token: string = await this.userToken;
+          const token: string = this.userToken;
           const uid = this.uid;
           const headers = { token, uid };
           // request
@@ -472,12 +473,11 @@ export default {
     lyrics_path: async function () {
       await this.getLyrics();
     },
+    uid: async function () {
+      if (!this.lyrics_path || !this.lyrics) {
+        this.getLyricsPath();
+      }
+    },
   },
 };
 </script>
-
-<style>
-.index-button {
-  @apply inline-block m-2;
-}
-</style>
