@@ -49,10 +49,10 @@ export default {
     };
   },
   computed: {
-    encodedScopes: function (): string {
+    encodedScopes(): string {
       return scopes.join('%20');
     },
-    spotifyAuthUrl: function (): string {
+    spotifyAuthUrl(): string {
       return `${this.authEndpoint}?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&scope=${this.encodedScopes}&response_type=token&show_dialog=false`;
     },
   },

@@ -2,20 +2,23 @@
   <div>
     <template v-if="isMobile">
       <MobilePlayerWithLyrics
+        v-if="showLyrics"
         v-bind="$props"
         v-on="$listeners"
-        v-if="showLyrics"
       />
-      <MobilePlayerNoLyrics v-bind="$props" v-on="$listeners" v-else />
+      <MobilePlayerNoLyrics v-else v-bind="$props" v-on="$listeners" />
     </template>
     <template v-else>
-      <PlayerWithLyrics v-bind="$props" v-on="$listeners" v-if="showLyrics" />
-      <PlayerNoLyrics v-bind="$props" v-on="$listeners" v-else />
+      <PlayerWithLyrics v-if="showLyrics" v-bind="$props" v-on="$listeners" />
+      <PlayerNoLyrics v-else v-bind="$props" v-on="$listeners" />
     </template>
   </div>
 </template>
 
 <script lang="ts">
+// util
+import debounce from 'debounce';
+// components
 import PaddedPaper from '../padded-paper.vue';
 import FlexContainer from '../flex-container.vue';
 // player
@@ -23,8 +26,7 @@ import PlayerWithLyrics from './player-with-lyrics.vue';
 import PlayerNoLyrics from './player-no-lyrics.vue';
 import MobilePlayerWithLyrics from './mobile-player-with-lyrics.vue';
 import MobilePlayerNoLyrics from './mobile-player-no-lyrics.vue';
-// util
-import debounce from 'debounce';
+
 // component
 export default {
   name: 'NothingPlaying',
@@ -54,18 +56,18 @@ export default {
       isMobile: false,
     };
   },
-  methods: {
-    onResize() {
-      const isMobile: boolean = window.innerWidth < 640;
-      this.isMobile = isMobile;
-    },
-  },
   mounted() {
     this.onResize(); // get initial width
     window.onresize = debounce(this.onResize, 50); // listen for changes in width
   },
   beforeDestroy() {
     window.onresize = null;
+  },
+  methods: {
+    onResize() {
+      const isMobile: boolean = window.innerWidth < 640;
+      this.isMobile = isMobile;
+    },
   },
 };
 </script>

@@ -41,7 +41,7 @@ export default {
     },
   },
   computed: {
-    textClass: function () {
+    textClass() {
       const classesArray = [];
       classesArray.push(this.variant); // variant
       classesArray.push(this.fontWeight); // fontWeight

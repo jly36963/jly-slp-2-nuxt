@@ -19,24 +19,24 @@ import colors from 'vuetify/lib/util/colors';
 // component
 export default {
   name: 'PaddedPaper',
+  components: {
+    VSheet,
+  },
   props: {
     height: { type: [Number, String], default: undefined },
     width: { type: [Number, String], default: undefined },
     elevation: { type: Number, default: 7 },
   },
   computed: {
-    useDark: function () {
+    useDark() {
       return !!this.$vuetify?.theme?.dark;
     },
-    color: function () {
+    color() {
       const color: string = this.useDark
         ? colors.grey.darken4
         : colors.shades.white;
       return color;
     },
-  },
-  components: {
-    VSheet,
   },
 };
 </script>

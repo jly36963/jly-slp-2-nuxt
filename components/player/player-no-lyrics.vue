@@ -62,8 +62,8 @@
 
               <VIcon
                 v-if="['context', 'off'].includes(repeat_state)"
-                @click="() => emitSendSpotifyPlaybackRequest('repeat')"
                 :color="repeat_state === 'context' ? indigo : 'inherit'"
+                @click="() => emitSendSpotifyPlaybackRequest('repeat')"
               >
                 mdi-repeat
               </VIcon>
@@ -79,8 +79,8 @@
             <OutlinedButton
               class="toggle-lyrics"
               :small="true"
-              @click.native="emitToggleShowLyrics"
               :text="showLyrics ? 'Hide Lyrics' : 'Show Lyrics'"
+              @click.native="emitToggleShowLyrics"
             />
           </div>
         </div>
@@ -91,15 +91,22 @@
 
 <script lang="ts">
 // imports
+import { VIcon, VProgressLinear } from 'vuetify/lib';
+import colors from 'vuetify/lib/util/colors';
 import PaddedPaper from '../padded-paper.vue';
 import FlexContainer from '../flex-container.vue';
 import TextTicker from '../text-ticker.vue';
 import OutlinedButton from '../buttons/outlined-button.vue';
-import { VIcon, VProgressLinear } from 'vuetify/lib';
-import colors from 'vuetify/lib/util/colors';
 // component
 export default {
   name: 'PlayerNoLyrics',
+  components: {
+    PaddedPaper,
+    FlexContainer,
+    VIcon,
+    TextTicker,
+    VProgressLinear,
+  },
   props: {
     songItem: Object,
     songItemId: String,
@@ -117,19 +124,12 @@ export default {
     };
   },
   methods: {
-    emitSendSpotifyPlaybackRequest: function (action) {
+    emitSendSpotifyPlaybackRequest(action) {
       this.$emit('sendSpotifyPlaybackRequest', action);
     },
-    emitToggleShowLyrics: function () {
+    emitToggleShowLyrics() {
       this.$emit('toggleShowLyrics');
     },
-  },
-  components: {
-    PaddedPaper,
-    FlexContainer,
-    VIcon,
-    TextTicker,
-    VProgressLinear,
   },
 };
 </script>
